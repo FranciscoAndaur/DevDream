@@ -1,12 +1,11 @@
 import React from 'react';
 
-import { Bluetooth as Memory, Storage, Trigger, Cloud } from 'grommet-icons';
+import { Cloud } from 'grommet-icons';
 import {
     Box,
     Card,
     CardBody,
     CardFooter,
-    Chart,
     Grid,
     Grommet,
     Text,
@@ -34,16 +33,11 @@ const theme = {
     },
 };
 
-const gradient = [
-    { value: 28, color: 'status-ok' },
-    { value: 50, color: 'status-warning' },
-    { value: 80, color: 'status-critical' },
-];
 
 const data = [
     {
         icon: <Cloud size="large" />,
-        title: '@Francisco' ,
+        title: '@Francisco',
         subTitle: 'Today I dreamt of a dark tunnel, Monica Belucci was there.  We were having coffee',
     },
     {
@@ -69,12 +63,6 @@ const data = [
     },
 ];
 
-const ChartPreview = ({ type }) => (
-    <Box>
-        
-       
-    </Box>
-);
 
 const Identifier = ({ children, title, subTitle, size, ...rest }) => (
     <Box gap="small" align="center" direction="row" pad="small" {...rest}>
@@ -90,14 +78,14 @@ const Identifier = ({ children, title, subTitle, size, ...rest }) => (
 
 export const DreamCard = () => (
     <Grommet theme={theme} full>
-        
-        <Box 
-        width="large"
-        height="large"
-        round="small"
-        align="center"
-        justify="center"
-        background="dark-1" height="fixed" width="fixed">
+
+        <Box
+            width="fixed"
+            height=""
+            round="small"
+            align="center"
+            justify="center"
+            background="dark-1"  >
             <Grid gap="small" columns={{ count: '3', size: 'small' }}>
                 {data.map(value => (
                     <Card
@@ -111,7 +99,7 @@ export const DreamCard = () => (
                             >
                                 {value.icon}
                             </Identifier>
-                            <Button primary label="Comment" size="small"  />
+                            <Button primary label="Comment" size="small" />
                         </CardBody>
                         <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
                             <Text size="medium">{value.message}</Text>
