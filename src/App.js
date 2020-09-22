@@ -42,9 +42,10 @@ class AppGrid extends React.Component {
   }
 
   handleLogin = currentUser => { 
+    
     // set current user, then redirect to home page
     this.setState({ currentUser }, () => { 
-      this.props.history.push('/home')
+      this.props.history.push('/home') 
     })
   }
 
@@ -67,7 +68,7 @@ class AppGrid extends React.Component {
     }))
   }
 
-  render() {
+  render() { console.log("from render:", this.state)
     return (
       <Grommet full theme={grommet}>
         <Grid
@@ -92,7 +93,7 @@ class AppGrid extends React.Component {
             <Button onClick={this.setSidebar}>
               <Text size="large"><div className='img_logo'></div></Text>
             </Button>
-        <Text>{this.state.currentUser}</Text>
+        <Text>{this.state.currentUser ? <span>Welcome, {this.state.currentUser.name}</span> : null }</Text>
           </Box>
 
           {this.state.sidebar && (
