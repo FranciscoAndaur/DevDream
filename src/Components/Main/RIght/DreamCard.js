@@ -11,6 +11,7 @@ import {
     Grommet,
     Text,
     Button,
+    
 } from 'grommet';
 
 const theme = {
@@ -40,6 +41,11 @@ const data = [
         icon: <Cloud size="large" />,
         title: '@Francisco',
         subTitle: 'Today I dreamt of a dark tunnel, Monica Belucci was there.  We were having coffee',
+    },
+    {
+        icon: <Cloud size="large" />,
+        title: '@Francisco',
+        subTitle: 'YOLO',
     },
     {
         icon: <Cloud size="large" />,
