@@ -12,16 +12,30 @@ import { Switch, Route, withRouter, Redirect, Link } from 'react-router-dom'
 
 class AppGrid extends React.Component {
   state = {
-    sidebar: true,
+    sidebar: false,
     setSidebar: true,
-    currentUser: null
+    currentUser: null,
+    posts: []
   }
 
   // log user in when component mounts
   componentDidMount() {
-    // TODO: check if user is logged in
-    // and set current user in state
-    fetch("http://localhost:3000/autologin", {
+   this.fetchDreams()
+   this.autologinFetch()
+  }
+
+fetchDreams = () => { 
+    fetch("http://localhost:3000/posts")
+      .then(r => r.json())
+      .then(postsArray => {
+        this.setState({
+          posts: postsArray
+        })
+      })
+  }
+
+  autologinFetch =() => {
+      fetch("http://localhost:3000/autologin", {
       credentials: "include"
     })
       .then(r => {
@@ -36,16 +50,15 @@ class AppGrid extends React.Component {
       })
       .catch((err) => console.error(err))
   }
-
+  
   updateUser = newUser => {
     this.setState({ currentUser: newUser })
   }
 
-  handleLogin = currentUser => { 
-    
+  handleLogin = currentUser => {
     // set current user, then redirect to home page
-    this.setState({ currentUser }, () => { 
-      this.props.history.push('/home') 
+    this.setState({ currentUser }, () => {
+      this.props.history.push('/home')
     })
   }
 
@@ -68,7 +81,7 @@ class AppGrid extends React.Component {
     }))
   }
 
-  render() { console.log("from render:", this.state)
+  render() {
     return (
       <Grommet full theme={grommet}>
         <Grid
@@ -87,56 +100,69 @@ class AppGrid extends React.Component {
             align="center"
             justify="between"
             pad={{ horizontal: 'medium', vertical: 'small' }}
-            background="dark-3"
+            background="dark-1"
           >
-            <NavBar />
+             <NavBar />
             <Button onClick={this.setSidebar}>
               <Text size="large"><div className='img_logo'></div></Text>
             </Button>
-        <Text>{this.state.currentUser ? <span>Welcome, {this.state.currentUser.name}</span> : null }</Text>
+            <Text>{this.state.currentUser ? <span>Welcome, {this.state.currentUser.name}</span> : null}</Text>
           </Box>
 
           {this.state.sidebar && (
             <Box
               gridArea="sidebar"
-              background="dark-2"
+              background="dark-1"
               width="small"
               animation={[
                 { type: 'fadeIn', duration: 300 },
                 { type: 'slideRight', size: 'xlarge', duration: 150 },
               ]}
             >
-              {['Profile', 'Settings', 'Sign-Out'].map(name => (
-                <Button key={name} href="#" hoverIndicator>
-                  <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
-                    <Link to={name}><Text>{name}</Text></Link>
-                  </Box>
-                </Button>
-              ))}
+              {['Profile', 'Settings', 'Sign-Out'].map(name => {
+                if (name === 'Sign-Out') {
+                  return (
+                    <Button onClick={this.handleLogout} key={name} hoverIndicator>
+                      <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
+                        <Link to={name}><Text>{name}</Text></Link>
+                      </Box>
+                    </Button>
+                  )
+                }
+                else {
+                  return (
+                    <Button key={name}  hoverIndicator>
+                      <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
+                        <Link to={name}><Text>{name}</Text></Link>
+                      </Box>
+                    </Button>
+                  )
+                }
+              })}
             </Box>
           )}
           <Box
             gridArea="main"
             justify="center"
             align="center"
-            background="dark-1" >
-
+            background="dark-2" >
+             
             <Switch>
-            <Route path="/signup">
-              <SignUp handleLogin={this.handleLogin} />
-            </Route>
-            <Route path="/login">
-              <Login handleLogin={this.handleLogin} />
-            </Route>
-            <Route path="/profile">
-              {this.state.currentUser ? <Profile currentUser={this.state.currentUser} updateUser={this.updateUser} /> : <Redirect to='/' />}
-            </Route>
-            <Route path="/home">
-              {this.state.currentUser ? <h1>Welcome, {this.state.currentUser.username}</h1> : <Redirect to='/' />}
-            </Route>
-            <Route path="/">
-              <h1>Please Login or Sign Up</h1>
-            </Route>
+              <Route path="/signup">
+                <SignUp handleLogin={this.handleLogin} />
+              </Route>
+              <Route path="/login">
+                <Login handleLogin={this.handleLogin} />
+              </Route>
+              <Route path="/profile">
+                {this.state.currentUser ? <Profile currentUser={this.state.currentUser} updateUser={this.updateUser} /> : <Redirect to='/' />}
+              </Route>
+              <Route path="/home">
+                {this.state.currentUser ? <MainContainer posts={this.state.posts} currentUser={this.state.currentUser} /> : <Redirect to='/' />}
+              </Route>
+              <Route path="/">
+                <h1>Please Login or Sign Up</h1>
+              </Route>
             </Switch>
           </Box>
         </Grid>

@@ -1,14 +1,23 @@
 import React from 'react'
+import DreamCard from './Components/Main/RIght/DreamCard';
 
-import DreamContainer from './Components/Main/RIght/DreamContainer';
 
-const MainContainer = () => {
-
+class MainContainer extends React.Component {
+    mapDreams() {
+        return this.props.posts.map((post) => (
+            <DreamCard
+            key={post.id} 
+            post={post}
+            />
+        ))
+    }
+    render() {
+        
     return(
         <>
-        
-    <DreamContainer />
+        {this.mapDreams()}
         </>
     )
+    }
 }
 export default MainContainer

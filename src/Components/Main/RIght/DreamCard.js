@@ -1,4 +1,5 @@
 import React from 'react';
+import './favorite.scss'
 
 import { Cloud } from 'grommet-icons';
 import {
@@ -64,6 +65,9 @@ const data = [
 ];
 
 
+
+
+
 const Identifier = ({ children, title, subTitle, size, ...rest }) => (
     <Box gap="small" align="center" direction="row" pad="small" {...rest}>
         {children}
@@ -76,39 +80,48 @@ const Identifier = ({ children, title, subTitle, size, ...rest }) => (
     </Box>
 );
 
-export const DreamCard = () => (
-    <Grommet theme={theme} full>
 
-        <Box
-            width="fixed"
-            height=""
-            round="small"
-            align="center"
-            justify="center"
-            background="dark-1"  >
-            <Grid gap="small" columns={{ count: '3', size: 'small' }}>
-                {data.map(value => (
-                    <Card
-                        key={value.title}
-                    >
-                        <CardBody pad="small">
-                            <Identifier
-                                title={value.title}
-                                subTitle={value.subTitle}
-                                size="large"
-                            >
-                                {value.icon}
-                            </Identifier>
-                            <Button primary label="Comment" size="small" />
-                        </CardBody>
-                        <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
-                            <Text size="medium">{value.message}</Text>
-                        </CardFooter>
-                    </Card>
-                ))}
-            </Grid>
-        </Box>
-    </Grommet>
-)
+export const DreamCard = (props) => {
+    
+    
+    return (
+
+        <Grommet theme={theme} full>
+
+            <Box
+                width="fixed"
+                height=""
+                round="small"
+                align="center"
+                justify="center"
+                background="dark-1"  >
+                <Grid gap="small" columns={{ count: '3', size: 'small' }}>
+                    {data.map(value => (
+                        <Card
+                            key={value.title}
+                        >
+                            <CardBody pad="small">
+                                <Identifier
+                                    title={value.title}
+                                    subTitle={value.subTitle}
+                                    size="large"
+                                >
+                                    {value.icon}
+                                </Identifier>
+                                <Button primary label="Comment" size="small" alignSelf="center" />
+                                <a className="button"><div><span className="heart"></span></div> </a>
+                                
+
+                            </CardBody>
+                            <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
+                                <Text size="medium">{value.message}</Text>
+                            </CardFooter>
+                        </Card>
+                    ))}
+                </Grid>
+            </Box>
+        </Grommet>
+    )
+}
 
 export default DreamCard

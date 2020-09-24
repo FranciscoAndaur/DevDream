@@ -1,11 +1,11 @@
 import React from 'react'
 import DreamCard from './DreamCard'
 
-const DreamContainer = () => {
+const DreamContainer = (props) => {
 
-    return(
+return(
         <>
-        <DreamCard />
+        
         </>
     )
 }
