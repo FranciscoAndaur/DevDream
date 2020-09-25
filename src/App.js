@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-import { Grommet, Box, Button, Grid, Text } from 'grommet';
+import { Grommet, Box, Button, Grid, Text, Heading } from 'grommet';
 import { grommet } from 'grommet/themes';
 import MainContainer from './MainContainer';
 import SignUp from './SignUp'
@@ -17,6 +17,7 @@ class AppGrid extends React.Component {
     currentUser: null,
     posts: []
   }
+  
 
   // log user in when component mounts
   componentDidMount() {
@@ -82,12 +83,24 @@ fetchDreams = () => {
   }
 
   render() {
+    const newcostumetheme = {
+      secondary: {
+        
+        color: 'text',
+        padding: {
+          horizontal: '8px',
+          vertical: '4px',
+        }
+    }
+  }
     return (
-      <Grommet full theme={grommet}>
+      <Grommet full theme={grommet} >
         <Grid
-          fill
+          fill="horizontal"
+          
           rows={['auto', 'flex']}
           columns={['auto', 'flex']}
+          responsive="true"
           areas={[
             { name: 'header', start: [0, 0], end: [1, 0] },
             { name: 'sidebar', start: [0, 1], end: [0, 1] },
@@ -115,8 +128,8 @@ fetchDreams = () => {
               background="dark-1"
               width="small"
               animation={[
-                { type: 'fadeIn', duration: 300 },
-                { type: 'slideRight', size: 'xlarge', duration: 150 },
+                { type: 'fadeIn', duration: 1000 },
+                { type: 'slideRight', size: 'xlarge', duration: 2000 },
               ]}
             >
               {['Profile', 'Settings', 'Sign-Out'].map(name => {
@@ -161,7 +174,33 @@ fetchDreams = () => {
                 {this.state.currentUser ? <MainContainer posts={this.state.posts} currentUser={this.state.currentUser} /> : <Redirect to='/' />}
               </Route>
               <Route path="/">
-                <h1>Please Login or Sign Up</h1>
+              <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+              <Heading margin="none" size="large">Dive deep into</Heading>
+              <Heading margin="none" size="large">the mind of [ your name ]</Heading>
+              <br/><br/>
+              <br/>
+            
+              <Button
+              href="/signup"
+              label="Sign Up" onClick={() => {}} secondary />
+              
+            <h5>Already a member? <a href="/Login">Sign in.</a></h5>
+            
+           
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+           
               </Route>
             </Switch>
           </Box>

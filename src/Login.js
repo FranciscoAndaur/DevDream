@@ -34,6 +34,9 @@ class Login extends React.Component {
     const { name, email, password } = this.state
     return (
       <>
+      <br/>
+            <br/>
+            <br/>
         <form onSubmit={this.handleSubmit}>
           <div className="form-structor">
             <div className="signup">
@@ -69,6 +72,14 @@ class Login extends React.Component {
 
           </div>
         </form>
+        <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      
       </>
     )
   }

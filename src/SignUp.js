@@ -35,6 +35,10 @@ class SignUp extends React.Component {
     const { name, email, password } = this.state
 
     return (
+      <>
+      <br/>
+            <br/>
+            <br/>
       <Box
         direction="row"
         border={{ color: 'brand', size: 'large' }}
@@ -75,7 +79,12 @@ class SignUp extends React.Component {
           </div>
 
         </form>
+        
       </Box>
+      <br/>
+      <br/>
+      <br/>
+      </>
     )
   }
 }

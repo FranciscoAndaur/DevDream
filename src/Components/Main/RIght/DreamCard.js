@@ -11,7 +11,8 @@ import {
     Grommet,
     Text,
     Button,
-    
+    InfiniteScroll,
+
 } from 'grommet';
 
 const theme = {
@@ -25,8 +26,11 @@ const theme = {
     },
     card: {
         container: {
+            pad: "xlarge",
+            justify: "center",
             background: '#FFFFFF12',
             elevation: 'none',
+            background: "linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
         },
         footer: {
             pad: { horizontal: 'medium', vertical: 'small' },
@@ -36,46 +40,14 @@ const theme = {
 };
 
 
-const data = [
-    {
-        icon: <Cloud size="large" />,
-        title: '@Francisco',
-        subTitle: 'Today I dreamt of a dark tunnel, Monica Belucci was there.  We were having coffee',
-    },
-    {
-        icon: <Cloud size="large" />,
-        title: '@Francisco',
-        subTitle: 'YOLO',
-    },
-    {
-        icon: <Cloud size="large" />,
-        title: '@Nutella',
-        subTitle: 'I dreamed I was the captain of a ship, we all wore red beanies, and the ocean was coffee',
-        message: '@Francisco Wow, that is a wild dream',
-        type: 'line',
-    },
-    {
-        icon: <Cloud size="large" />,
-        title: '@ButtTempo',
-        subTitle: 'I was doing yoga in the park and it began to rain,  the rain was not rain though it was marshmallows.... I made Marshmallow angels.',
-        message: '@Karem Yo, i had the same dream, but it was raining Grahm Crackers and Chocolate :0',
-        type: 'point',
-    },
-    {
-        icon: <Cloud size="large" />,
-        title: '@karem',
-        subTitle: 'I was tiny, the size of an ant.  Living inside an avocado.',
-        message: '@Donut You would dream that.',
-        type: 'point',
-    },
-];
+
 
 
 
 
 
 const Identifier = ({ children, title, subTitle, size, ...rest }) => (
-    <Box gap="small" align="center" direction="row" pad="small" {...rest}>
+    <Box gap="large" align="center" direction="row" pad="small" {...rest}>
         {children}
         <Box>
             <Text size={size} weight="bold">
@@ -88,42 +60,39 @@ const Identifier = ({ children, title, subTitle, size, ...rest }) => (
 
 
 export const DreamCard = (props) => {
-    
-    
+
+
     return (
 
         <Grommet theme={theme} full>
 
             <Box
-                width="fixed"
-                height=""
-                round="small"
-                align="center"
-                justify="center"
+                pad="large" height="100%"
                 background="dark-1"  >
-                <Grid gap="small" columns={{ count: '3', size: 'small' }}>
-                    {data.map(value => (
-                        <Card
-                            key={value.title}
-                        >
-                            <CardBody pad="small">
-                                <Identifier
-                                    title={value.title}
-                                    subTitle={value.subTitle}
-                                    size="large"
-                                >
-                                    {value.icon}
-                                </Identifier>
-                                <Button primary label="Comment" size="small" alignSelf="center" />
-                                <a className="button"><div><span className="heart"></span></div> </a>
+                <Grid >
+                    
+                    <Card>
+                        <Cloud size="large" />
+                        <CardBody pad="small">
+                            <Identifier
+                                title={props.post.user.name}
+                                subTitle={props.post.content}
                                 
+                            >
+                                <a className="button"><div><span className="heart"></span></div>  </a>
+                                
+                            </Identifier>
 
-                            </CardBody>
-                            <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
-                                <Text size="medium">{value.message}</Text>
-                            </CardFooter>
-                        </Card>
-                    ))}
+                            <Button primary label="Comment" size="small" alignSelf="center" />
+
+
+                        </CardBody>
+                        <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
+                            <Text size="medium">{props.post.content}</Text>
+                        </CardFooter>
+                    </Card>
+
+
                 </Grid>
             </Box>
         </Grommet>
