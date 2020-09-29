@@ -84,10 +84,10 @@ console.log(this.props.comment.user.name
                     pad="small" height="fixed"
                     background="dark-1"  >
                     <Grid >
-
                         <Card>
                             <Cloud size="large" />
                             <CardBody pad="small">
+                            <div align="end">
                                 <Identifier
                                     title={this.props.comment.user.name}
                                     subTitle={this.props.comment.post.content}
@@ -99,7 +99,7 @@ console.log(this.props.comment.user.name
 
 
                                 
-                                <div align="end"><CommentDreamButton /><Down onClick={this.setComments} size="medium" /> 
+                                <CommentDreamButton /><Down onClick={this.setComments} size="medium" /> 
                                 </div>
 
 

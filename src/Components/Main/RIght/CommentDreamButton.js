@@ -48,7 +48,7 @@ const CommentDreamButton = () => {
             </FormField>
             <Box direction="row" justify="between" margin={{ top: 'medium' }}>
               
-              <Button type="submit" label="Update" primary />
+              <Button type="submit" label="post" primary />
             </Box>
 
             </Form>

@@ -221,7 +221,7 @@ class App extends React.Component {
                 <Heading margin="none" size="large">the mind of [ your name ]</Heading>
                 <br /><br />
                 <br />
-                <CommentDreamForm />
+                
                 <Button
                
 
