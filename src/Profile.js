@@ -30,16 +30,16 @@ class Profile extends React.Component {
 
     render() {
         const { name, email } = this.state
-        const { username } = this.props.currentUser
+        // const { name} = this.props.currentUser
 
         return (
             <form onSubmit={this.handleSubmit}>
                 <h1>{name}'s Profile</h1>
 
-                <label>Profile Image</label>
+                <label>name</label>
                 <input
                     type="text"
-                    name="image"
+                    name="name"
                     autoComplete="off"
                     value={name}
                     onChange={this.handleChange}

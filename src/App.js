@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-import { Grommet, Box, Button, Grid, Text, Heading } from 'grommet';
+import { Grommet, Box, Button, Grid, Text, Heading, Layer } from 'grommet';
 import { grommet } from 'grommet/themes';
 import MainContainer from './MainContainer';
 import SignUp from './SignUp'
@@ -8,25 +8,42 @@ import Login from './Login'
 import NavBar from './NavBar'
 import Profile from './Profile'
 import { Switch, Route, withRouter, Redirect, Link } from 'react-router-dom'
+import { CloudUpload } from 'grommet-icons';
+import CommentDreamForm from './Components/Main/RIght/CommentDreamForm';
 
 
-class AppGrid extends React.Component {
+class App extends React.Component {
   state = {
     sidebar: false,
     setSidebar: true,
     currentUser: null,
-    posts: []
+    showDreamButton: null,
+    posts: [],
+    comment: [],
+    showForm: false,
+    setShow: false,
   }
-  
+
 
   // log user in when component mounts
   componentDidMount() {
-   this.fetchDreams()
-   this.autologinFetch()
+    this.fetchDreams()
+    this.autologinFetch()
+    this.fetchComments()
   }
 
-fetchDreams = () => { 
-    fetch("http://localhost:3000/posts")
+  fetchComments = () => {
+    fetch("http://localhost:3000/comments")
+      .then(r => r.json())
+      .then(commentsArray => {
+        this.setState({
+          comment: commentsArray
+        })
+      })
+  }
+
+  fetchDreams = () => {
+    fetch("http://localhost:3000/posts?_limit=5")
       .then(r => r.json())
       .then(postsArray => {
         this.setState({
@@ -35,8 +52,8 @@ fetchDreams = () => {
       })
   }
 
-  autologinFetch =() => {
-      fetch("http://localhost:3000/autologin", {
+  autologinFetch = () => {
+    fetch("http://localhost:3000/autologin", {
       credentials: "include"
     })
       .then(r => {
@@ -51,9 +68,11 @@ fetchDreams = () => {
       })
       .catch((err) => console.error(err))
   }
-  
+
   updateUser = newUser => {
-    this.setState({ currentUser: newUser })
+    this.setState({ newUser }, () => {
+      this.props.history.push('/home')
+    })
   }
 
   handleLogin = currentUser => {
@@ -82,22 +101,29 @@ fetchDreams = () => {
     }))
   }
 
+  setShow = () => {
+    this.setState(prevState => ({
+      show: !prevState.show,
+      setShow: !prevState
+    }))
+  }
+
   render() {
     const newcostumetheme = {
       secondary: {
-        
+
         color: 'text',
         padding: {
           horizontal: '8px',
           vertical: '4px',
         }
+      }
     }
-  }
     return (
       <Grommet full theme={grommet} >
         <Grid
           fill="horizontal"
-          
+
           rows={['auto', 'flex']}
           columns={['auto', 'flex']}
           responsive="true"
@@ -115,11 +141,15 @@ fetchDreams = () => {
             pad={{ horizontal: 'medium', vertical: 'small' }}
             background="dark-1"
           >
-             <NavBar />
+            <NavBar />
             <Button onClick={this.setSidebar}>
               <Text size="large"><div className='img_logo'></div></Text>
             </Button>
-            <Text>{this.state.currentUser ? <span>Welcome, {this.state.currentUser.name}</span> : null}</Text>
+            <Text>{this.state.currentUser
+              ? <span>Welcome, {this.state.currentUser.name}
+              </span>
+              : null}</Text> 
+              {this.state.currentUser ? <CommentDreamForm /> : null }
           </Box>
 
           {this.state.sidebar && (
@@ -144,7 +174,7 @@ fetchDreams = () => {
                 }
                 else {
                   return (
-                    <Button key={name}  hoverIndicator>
+                    <Button key={name} hoverIndicator>
                       <Box pad={{ horizontal: 'medium', vertical: 'small' }}>
                         <Link to={name}><Text>{name}</Text></Link>
                       </Box>
@@ -159,7 +189,6 @@ fetchDreams = () => {
             justify="center"
             align="center"
             background="dark-2" >
-             
             <Switch>
               <Route path="/signup">
                 <SignUp handleLogin={this.handleLogin} />
@@ -168,39 +197,51 @@ fetchDreams = () => {
                 <Login handleLogin={this.handleLogin} />
               </Route>
               <Route path="/profile">
-                {this.state.currentUser ? <Profile currentUser={this.state.currentUser} updateUser={this.updateUser} /> : <Redirect to='/' />}
+                {this.state.currentUser
+                  ? <Profile
+                    currentUser={this.state.currentUser}
+                    updateUser={this.updateUser} />
+                  : <Redirect to='/' />}
               </Route>
               <Route path="/home">
-                {this.state.currentUser ? <MainContainer posts={this.state.posts} currentUser={this.state.currentUser} /> : <Redirect to='/' />}
+                {this.state.currentUser
+                  ? <MainContainer
+                    posts={this.state.posts}
+                    comment={this.state.comment}
+                    currentUser={this.state.currentUser} />
+                  : <Redirect to='/' />}
               </Route>
               <Route path="/">
-              <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-              <Heading margin="none" size="large">Dive deep into</Heading>
-              <Heading margin="none" size="large">the mind of [ your name ]</Heading>
-              <br/><br/>
-              <br/>
-            
-              <Button
-              href="/signup"
-              label="Sign Up" onClick={() => {}} secondary />
-              
-            <h5>Already a member? <a href="/Login">Sign in.</a></h5>
-            
-           
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-           
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <Heading margin="none" size="large">Dive deep into</Heading>
+                <Heading margin="none" size="large">the mind of [ your name ]</Heading>
+                <br /><br />
+                <br />
+                <CommentDreamForm />
+                <Button
+               
+
+                  href="/signup"
+
+                  label="Sign Up" onClick={() => { }} secondary />
+
+                <h5>Already a member? <a href="/Login">Sign in.</a></h5>
+
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+
               </Route>
             </Switch>
           </Box>
@@ -210,4 +251,4 @@ fetchDreams = () => {
   }
 };
 
-export default withRouter(AppGrid)
+export default withRouter(App)

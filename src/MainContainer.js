@@ -4,14 +4,16 @@ import DreamCard from './Components/Main/RIght/DreamCard';
 
 class MainContainer extends React.Component {
     mapDreams() {
-        return this.props.posts.map((post) => (
+        return this.props.comment.map((comment) => (
             <DreamCard
-            key={post.id} 
-            post={post}
+            key={comment.id} 
+            comment={comment}
+            
             />
         ))
     }
-    render() {
+
+    render() { 
         
     return(
         <>

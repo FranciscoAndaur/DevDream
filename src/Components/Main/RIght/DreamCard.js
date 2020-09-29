@@ -1,7 +1,8 @@
 import React from 'react';
 import './favorite.scss'
 
-import { Cloud } from 'grommet-icons';
+
+import { Cloud, Down } from 'grommet-icons';
 import {
     Box,
     Card,
@@ -11,9 +12,9 @@ import {
     Grommet,
     Text,
     Button,
-    InfiniteScroll,
-
 } from 'grommet';
+import CommentDreamButton from './CommentDreamButton'
+
 
 const theme = {
     themeMode: 'dark',
@@ -46,57 +47,85 @@ const theme = {
 
 
 
-const Identifier = ({ children, title, subTitle, size, ...rest }) => (
+const Identifier = ({ children, title, subTitle, ...rest }) => (
     <Box gap="large" align="center" direction="row" pad="small" {...rest}>
         {children}
-        <Box>
-            <Text size={size} weight="bold">
-                {title}
-            </Text>
-            <Text size={size}>{subTitle}</Text>
-        </Box>
+        <Text weight="bold">
+            @{title}
+        </Text>
+        <Text >{subTitle}</Text>
     </Box>
+
 );
 
 
-export const DreamCard = (props) => {
+export class DreamCard extends React.Component {
+
+    state = {
+        hideComments: false,
+        setComments: true,
+    }
+
+    setComments = () => {
+        this.setState(prevState => ({
+            hideComments: !prevState.hideComments,
+            setComments: !prevState.setComments
+        }))
+    }
+
+    render() {
+console.log(this.props.comment.user.name
+)
+        return (
+
+            <Grommet theme={theme} full>
+
+                <Box
+                    pad="small" height="fixed"
+                    background="dark-1"  >
+                    <Grid >
+
+                        <Card>
+                            <Cloud size="large" />
+                            <CardBody pad="small">
+                                <Identifier
+                                    title={this.props.comment.user.name}
+                                    subTitle={this.props.comment.post.content}
+
+                                >
+                                    <a className="button"><div><span className="heart"></span></div>  </a>
+
+                                </Identifier>
 
 
-    return (
-
-        <Grommet theme={theme} full>
-
-            <Box
-                pad="large" height="100%"
-                background="dark-1"  >
-                <Grid >
-                    
-                    <Card>
-                        <Cloud size="large" />
-                        <CardBody pad="small">
-                            <Identifier
-                                title={props.post.user.name}
-                                subTitle={props.post.content}
                                 
-                            >
-                                <a className="button"><div><span className="heart"></span></div>  </a>
-                                
-                            </Identifier>
-
-                            <Button primary label="Comment" size="small" alignSelf="center" />
+                                <div align="end"><CommentDreamButton /><Down onClick={this.setComments} size="medium" /> 
+                                </div>
 
 
-                        </CardBody>
-                        <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
-                            <Text size="medium">{props.post.content}</Text>
-                        </CardFooter>
-                    </Card>
+
+                            </CardBody>
+                            {this.state.hideComments && (
+                                <Box
+                                    animation={[
+                                        { type: 'fadeIn', duration: 600 },
+                                        { type: 'slideDown', size: 'medium', duration: 600 },
+                                    ]}
+                                >
+                                    <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
+                                        <Box pad="medium" elevation="medium" gap="medium">
+                                            <Text size="medium">{this.props.comment.content}</Text>
+                                        </Box>
+                                    </CardFooter>
+                                </Box>)}
+                        </Card>
 
 
-                </Grid>
-            </Box>
-        </Grommet>
-    )
+                    </Grid>
+                </Box>
+            </Grommet>
+        )
+    }
 }
 
 export default DreamCard
