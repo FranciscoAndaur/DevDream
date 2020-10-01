@@ -9,6 +9,7 @@ class MainContainer extends React.Component {
             key={dream.id} 
             dream={dream}
             user={this.props.currentUser}
+            handleDeleteDream={this.props.handleDeleteDream}
             />
         ))
     }

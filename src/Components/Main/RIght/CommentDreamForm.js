@@ -27,7 +27,7 @@ const CommentDreamForm = (props) => {
       .then((r) => r.json())
       .then((newDream) => {
         setShow(false)
-        console.log(newDream)
+        props.handleAddNewDream(newDream)
 
       });
   };

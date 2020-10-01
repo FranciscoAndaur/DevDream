@@ -116,6 +116,18 @@ class App extends React.Component {
     }))
   }
 
+  handleDeleteDream = (justinTimberlake) => {
+    this.setState(prevState => ({
+      posts: prevState.posts.filter((post) => post.id !== justinTimberlake.id)
+    }))
+  }
+
+  handleAddNewDream = (newDream) => {
+    this.setState(prevState => ({
+      posts: [ ...prevState.posts, newDream]
+    }))
+  }
+
   render() {
     const newcostumetheme = {
       secondary: {
@@ -157,7 +169,11 @@ class App extends React.Component {
               ? <span>Welcome, {this.state.currentUser.name}
               </span>
               : null}</Text> 
-              {this.state.currentUser ? <CommentDreamForm user={this.state.currentUser} /> : null }
+              {this.state.currentUser ? <CommentDreamForm 
+              user={this.state.currentUser} 
+              handleAddNewDream={this.handleAddNewDream}
+              
+              /> : null }
           </Box>
 
           {this.state.sidebar && (
@@ -214,6 +230,7 @@ class App extends React.Component {
               <Route path="/home">
                 {this.state.currentUser
                   ? <MainContainer
+                    handleDeleteDream={this.handleDeleteDream}
                     posts={this.state.posts}
                     comment={this.state.comment}
                     currentUser={this.state.currentUser} />

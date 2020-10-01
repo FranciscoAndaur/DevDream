@@ -79,7 +79,14 @@ export class DreamCard extends React.Component {
     }
 
     handleDelete = () => {
-        fetch(`http://localhost:3000/posts/`)
+        
+        fetch(`http://localhost:3000/posts/${this.props.dream.id}`, {
+           method: "DELETE"
+        })
+        .then(r => r.json())
+        .then(justinTimberlake => {
+            this.props.handleDeleteDream(justinTimberlake)
+        })
     }
 
     setComments = () => {
@@ -89,7 +96,7 @@ export class DreamCard extends React.Component {
         }))
     }
 
-    render() {  console.log("dream card ", this.props.dream.comments
+    render() {  console.log("dream card ", this.props.dream.id
     )
 
         return (
@@ -109,7 +116,7 @@ export class DreamCard extends React.Component {
                                     subTitle={this.props.dream.content}
 
                                 >
-                                    <a className="button"><div><span className="heart" onClick={this.handleDelete}></span></div>  </a>
+                                    <a className="button" onClick={this.handleDelete}><div><span className="heart" ></span></div>  </a>
 
                                 </Identifier>
 
