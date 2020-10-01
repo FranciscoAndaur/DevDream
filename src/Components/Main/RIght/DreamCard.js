@@ -26,9 +26,11 @@ const theme = {
         },
     },
     card: {
+        
         container: {
-            pad: "xlarge",
+            pad: { horizontal: 'medium', vertical: 'medium' },
             justify: "center",
+           
             background: '#FFFFFF12',
             elevation: 'none',
             background: "linear-gradient(102.77deg, #865ED6 -9.18%, #18BAB9 209.09%)"
@@ -66,6 +68,20 @@ export class DreamCard extends React.Component {
         setComments: true,
     }
 
+    mapComments() {
+        return this.props.dream.comments.map((comment) => (
+            <CardFooter pad={{ horizontal: 'small', vertical: 'small' }}>
+            <Box pad="medium" elevation="medium" gap="medium">
+            <Text key={comment.id} size="medium">{comment.content}</Text>
+            </Box>
+            </CardFooter>
+        ))
+    }
+
+    handleDelete = () => {
+        fetch(`http://localhost:3000/posts/`)
+    }
+
     setComments = () => {
         this.setState(prevState => ({
             hideComments: !prevState.hideComments,
@@ -73,9 +89,9 @@ export class DreamCard extends React.Component {
         }))
     }
 
-    render() {
-console.log(this.props.comment.user.name
-)
+    render() {  console.log("dream card ", this.props.dream.comments
+    )
+
         return (
 
             <Grommet theme={theme} full>
@@ -89,17 +105,17 @@ console.log(this.props.comment.user.name
                             <CardBody pad="small">
                             <div align="end">
                                 <Identifier
-                                    title={this.props.comment.user.name}
-                                    subTitle={this.props.comment.post.content}
+                                    title={this.props.dream.user.name}
+                                    subTitle={this.props.dream.content}
 
                                 >
-                                    <a className="button"><div><span className="heart"></span></div>  </a>
+                                    <a className="button"><div><span className="heart" onClick={this.handleDelete}></span></div>  </a>
 
                                 </Identifier>
 
 
                                 
-                                <CommentDreamButton /><Down onClick={this.setComments} size="medium" /> 
+                                <CommentDreamButton user={this.props.user} /><Down onClick={this.setComments} size="medium" /> 
                                 </div>
 
 
@@ -112,11 +128,11 @@ console.log(this.props.comment.user.name
                                         { type: 'slideDown', size: 'medium', duration: 600 },
                                     ]}
                                 >
-                                    <CardFooter pad={{ horizontal: 'medium', vertical: 'large' }}>
-                                        <Box pad="medium" elevation="medium" gap="medium">
-                                            <Text size="medium">{this.props.comment.content}</Text>
-                                        </Box>
-                                    </CardFooter>
+                                    
+                                        
+                                           {this.mapComments()}
+                                    
+                                    
                                 </Box>)}
                         </Card>
 

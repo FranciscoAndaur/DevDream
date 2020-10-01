@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-import { Grommet, Box, Button, Grid, Text, Heading, Layer } from 'grommet';
+import { Grommet, Box, Button, Grid, Text, Heading, Layer, Form, FormField, TextInput } from 'grommet';
 import { grommet } from 'grommet/themes';
 import MainContainer from './MainContainer';
 import SignUp from './SignUp'
@@ -14,6 +14,7 @@ import CommentDreamForm from './Components/Main/RIght/CommentDreamForm';
 
 class App extends React.Component {
   state = {
+    name: "",
     sidebar: false,
     setSidebar: true,
     currentUser: null,
@@ -82,6 +83,13 @@ class App extends React.Component {
     })
   }
 
+  handleName = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value 
+    });
+  }
+  
+
   handleLogout = () => {
     fetch("http://localhost:3000/logout", {
       credentials: "include"
@@ -149,7 +157,7 @@ class App extends React.Component {
               ? <span>Welcome, {this.state.currentUser.name}
               </span>
               : null}</Text> 
-              {this.state.currentUser ? <CommentDreamForm /> : null }
+              {this.state.currentUser ? <CommentDreamForm user={this.state.currentUser} /> : null }
           </Box>
 
           {this.state.sidebar && (
@@ -191,7 +199,7 @@ class App extends React.Component {
             background="dark-2" >
             <Switch>
               <Route path="/signup">
-                <SignUp handleLogin={this.handleLogin} />
+                <SignUp handleLogin={this.handleLogin} name={this.state.typedName} />
               </Route>
               <Route path="/login">
                 <Login handleLogin={this.handleLogin} />
@@ -218,7 +226,19 @@ class App extends React.Component {
                 <br />
                 <br />
                 <Heading margin="none" size="large">Dive deep into</Heading>
-                <Heading margin="none" size="large">the mind of [ your name ]</Heading>
+                <Heading margin="none" size="large">the mind of</Heading> 
+                <Heading margin="none" size="large">
+          <FormField  htmlFor="text-input" >
+            <TextInput 
+              id="text-input"
+              placeholder="[your name]"
+              name= "name"
+
+              onChange={this.handleName}
+              
+            />
+          </FormField>
+        </Heading>
                 <br /><br />
                 <br />
                 
@@ -226,7 +246,7 @@ class App extends React.Component {
                
 
                   href="/signup"
-
+                  typed={this.props.typedName}
                   label="Sign Up" onClick={() => { }} secondary />
 
                 <h5>Already a member? <a href="/Login">Sign in.</a></h5>

@@ -2,10 +2,36 @@ import React from 'react'
 import { Box, Button, Layer, Text, FormField, TextArea, Form } from 'grommet';
 import { CloudUpload, Close } from 'grommet-icons';
 
-const CommentDreamForm = () => {
+const CommentDreamForm = (props) => {
+  // console.log("bet", props.user.id)
+
     const [show, setShow] = React.useState();
     const [comments, setComments] = React.useState('');
-    
+    const [content, setContent] = React.useState('')
+
+
+    let postToBackend = (event) => {
+    console.log("clicked")
+    // event.preventDefault()
+    fetch("http://localhost:3000/posts", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: content, 
+        user_id: props.user.id
+      }),
+    })
+      .then((r) => r.json())
+      .then((newDream) => {
+        setShow(false)
+        console.log(newDream)
+
+      });
+  };
+    console.log(content)
 //TO DO : NEED TO LINK FORM WITH BACK END AND ALSO PASS USER PROPS.  CHANGE TO CLASS COMPONENT
     return ( 
       
@@ -35,17 +61,17 @@ const CommentDreamForm = () => {
  size="medium" align="end" onClick={() => setShow(false)} />
             <Box fill align="center" justify="center">
         <Box width="medium">
-            <Form>
-            <FormField label="Comments" name="comments">
+            <Form onSubmit={postToBackend} >
+            <FormField label="New Dream" name="content">
               <TextArea
-                name="comments"
-                value={comments}
-                onChange={event => setComments(event.target.value)}
+                name="content"
+                value={content}
+                onChange={event => setContent(event.target.value)}
               />
             </FormField>
             <Box direction="row" justify="between" margin={{ top: 'medium' }}>
               
-              <Button type="submit" label="post" primary />
+              <Button  type="submit" label="post" primary/>
             </Box>
 
             </Form>
