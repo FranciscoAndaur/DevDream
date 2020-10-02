@@ -4,7 +4,7 @@ import './LogIn.scss'
 
 class SignUp extends React.Component {
   state = {
-    name: "",
+    name: this.props.name,
     email: "",
     password: ""
   }
@@ -79,7 +79,7 @@ class SignUp extends React.Component {
           </div>
 
         </form>
-        
+
       </Box>
       <br/>
       <br/>

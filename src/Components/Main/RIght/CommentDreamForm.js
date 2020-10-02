@@ -2,13 +2,13 @@ import React from 'react'
 import { Box, Button, Layer, Text, FormField, TextArea, Form } from 'grommet';
 import { CloudUpload, Close } from 'grommet-icons';
 
-const CommentDreamForm = (props) => {
+const CommentDreamForm = ({user, handleAddNewDream}) => {
   // console.log("bet", props.user.id)
 
     const [show, setShow] = React.useState();
     const [comments, setComments] = React.useState('');
     const [content, setContent] = React.useState('')
-
+    
 
     let postToBackend = (event) => {
     console.log("clicked")
@@ -21,13 +21,13 @@ const CommentDreamForm = (props) => {
       },
       body: JSON.stringify({
         content: content, 
-        user_id: props.user.id
+        user_id: user.id
       }),
     })
       .then((r) => r.json())
       .then((newDream) => {
         setShow(false)
-        props.handleAddNewDream(newDream)
+        handleAddNewDream(newDream)
 
       });
   };

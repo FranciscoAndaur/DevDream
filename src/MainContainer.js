@@ -10,6 +10,7 @@ class MainContainer extends React.Component {
             dream={dream}
             user={this.props.currentUser}
             handleDeleteDream={this.props.handleDeleteDream}
+            handleAddNewComment={this.props.handleAddNewComment}
             />
         ))
     }

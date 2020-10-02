@@ -69,10 +69,12 @@ export class DreamCard extends React.Component {
     }
 
     mapComments() {
+        console.log("what is this:", this.props.dream)
         return this.props.dream.comments.map((comment) => (
             <CardFooter pad={{ horizontal: 'small', vertical: 'small' }}>
             <Box pad="medium" elevation="medium" gap="medium">
-            <Text key={comment.id} size="medium">{comment.content}</Text>
+                
+                <Text key={comment.id} size="medium">{comment.content}</Text>
             </Box>
             </CardFooter>
         ))
@@ -96,8 +98,8 @@ export class DreamCard extends React.Component {
         }))
     }
 
-    render() {  console.log("dream card ", this.props.dream.id
-    )
+    render() {  
+        // console.log("dream card ", this.props)
 
         return (
 
@@ -122,7 +124,7 @@ export class DreamCard extends React.Component {
 
 
                                 
-                                <CommentDreamButton user={this.props.user} /><Down onClick={this.setComments} size="medium" /> 
+                                <CommentDreamButton user={this.props.user} handleAddNewComment={this.props.handleAddNewComment} dreamID={this.props.dream.id}  /><Down onClick={this.setComments} size="medium" /> 
                                 </div>
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css'
 import { Grommet, Box, Button, Grid, Text, Heading, Layer, Form, FormField, TextInput } from 'grommet';
+
 import { grommet } from 'grommet/themes';
 import MainContainer from './MainContainer';
 import SignUp from './SignUp'
@@ -20,31 +21,22 @@ class App extends React.Component {
     currentUser: null,
     showDreamButton: null,
     posts: [],
-    comment: [],
     showForm: false,
     setShow: false,
   }
 
+  userName = React.createRef()
 
   // log user in when component mounts
   componentDidMount() {
     this.fetchDreams()
     this.autologinFetch()
-    this.fetchComments()
   }
 
-  fetchComments = () => {
-    fetch("http://localhost:3000/comments")
-      .then(r => r.json())
-      .then(commentsArray => {
-        this.setState({
-          comment: commentsArray
-        })
-      })
-  }
+
 
   fetchDreams = () => {
-    fetch("http://localhost:3000/posts?_limit=5")
+    fetch("http://localhost:3000/posts")
       .then(r => r.json())
       .then(postsArray => {
         this.setState({
@@ -83,12 +75,15 @@ class App extends React.Component {
     })
   }
 
-  handleName = (event) => {
+  handleName = (e) => {
+    console.log('name change!!')
+    e.preventDefault()
     this.setState({
-      [event.target.name]: event.target.value 
+      name: this.userName.current.value
     });
+    this.props.history.push('/signup')
   }
-  
+
 
   handleLogout = () => {
     fetch("http://localhost:3000/logout", {
@@ -128,7 +123,27 @@ class App extends React.Component {
     }))
   }
 
-  render() {
+  handleAddNewComment = (newComment) => {
+    const updatedPosts = this.state.posts.map(post => {
+      if (
+        post.id === newComment.post.id){
+          return{
+            ...post,
+            comments: [...post.comments, newComment]
+          }
+        }
+        else{
+          return post
+        }
+    })
+    this.setState(prevState => ({
+      ...prevState,
+      posts: [...updatedPosts]
+      
+    }))
+  }
+
+  render() { console.log("from APP:",this.state.posts)
     const newcostumetheme = {
       secondary: {
 
@@ -168,11 +183,11 @@ class App extends React.Component {
             <Text>{this.state.currentUser
               ? <span>Welcome, {this.state.currentUser.name}
               </span>
-              : null}</Text> 
-              {this.state.currentUser ? <CommentDreamForm 
-              user={this.state.currentUser} 
+              : null}</Text>
+              {this.state.currentUser ? <CommentDreamForm
+              user={this.state.currentUser}
               handleAddNewDream={this.handleAddNewDream}
-              
+
               /> : null }
           </Box>
 
@@ -215,7 +230,7 @@ class App extends React.Component {
             background="dark-2" >
             <Switch>
               <Route path="/signup">
-                <SignUp handleLogin={this.handleLogin} name={this.state.typedName} />
+                <SignUp handleLogin={this.handleLogin} name={this.state.name} />
               </Route>
               <Route path="/login">
                 <Login handleLogin={this.handleLogin} />
@@ -233,6 +248,7 @@ class App extends React.Component {
                     handleDeleteDream={this.handleDeleteDream}
                     posts={this.state.posts}
                     comment={this.state.comment}
+                    handleAddNewComment={this.handleAddNewComment}
                     currentUser={this.state.currentUser} />
                   : <Redirect to='/' />}
               </Route>
@@ -243,28 +259,26 @@ class App extends React.Component {
                 <br />
                 <br />
                 <Heading margin="none" size="large">Dive deep into</Heading>
-                <Heading margin="none" size="large">the mind of</Heading> 
+                <Heading margin="none" size="large">the mind of</Heading>
                 <Heading margin="none" size="large">
-          <FormField  htmlFor="text-input" >
-            <TextInput 
-              id="text-input"
-              placeholder="[your name]"
-              name= "name"
-
-              onChange={this.handleName}
-              
-            />
-          </FormField>
+          <form onSubmit={this.handleName}>
+              <input
+                className="landingInput"
+                id="text-input"
+                placeholder="[your name]"
+                name= "name"
+                ref={this.userName}
+              />
+              {/* <Button href="/signup"
+                // typed={this.props.typedName}
+                style={{margin: '0 auto'}}
+                label="Sign Up" onClick={() => { }} secondary /> */}
+          </form>
         </Heading>
                 <br /><br />
                 <br />
-                
-                <Button
-               
 
-                  href="/signup"
-                  typed={this.props.typedName}
-                  label="Sign Up" onClick={() => { }} secondary />
+
 
                 <h5>Already a member? <a href="/Login">Sign in.</a></h5>
 

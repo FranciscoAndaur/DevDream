@@ -5,3 +5,13 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+.landingInput {
+    border: none;
+    outline: none;
+    width: 40vw;
+    height: 10vh;
+    font-size: 60px;
+    background: transparent;
+    border-bottom: 2px solid yellowgreen;
+
+}
