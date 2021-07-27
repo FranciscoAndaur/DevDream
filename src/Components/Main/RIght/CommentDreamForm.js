@@ -13,7 +13,7 @@ const CommentDreamForm = ({user, handleAddNewDream}) => {
     let postToBackend = (event) => {
     console.log("clicked")
     // event.preventDefault()
-    fetch("http://localhost:3000/posts", {
+    fetch("https://secure-hollows-75074.herokuapp.com/posts", {
       method: "POST",
       credentials: "include",
       headers: {

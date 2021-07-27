@@ -82,7 +82,7 @@ export class DreamCard extends React.Component {
 
     handleDelete = () => {
         
-        fetch(`http://localhost:3000/posts/${this.props.dream.id}`, {
+        fetch(`https://secure-hollows-75074.herokuapp.com/posts/${this.props.dream.id}`, {
            method: "DELETE"
         })
         .then(r => r.json())

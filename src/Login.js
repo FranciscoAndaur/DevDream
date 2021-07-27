@@ -16,7 +16,7 @@ class Login extends React.Component {
     e.preventDefault()
     // TODO: make a fetch request to login the current user
     // then set that user in state in our App component
-    fetch("http://localhost:3000/login", {
+    fetch("https://secure-hollows-75074.herokuapp.com/login", {
       method: "POST",
       credentials: "include",
       headers: {

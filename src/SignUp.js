@@ -17,7 +17,7 @@ class SignUp extends React.Component {
     e.preventDefault()
     // TODO: make a fetch request to sign up the current user
     // then set that user in state in our App component
-    fetch("http://localhost:3000/users", {
+    fetch("https://secure-hollows-75074.herokuapp.com/users", {
       method: "POST",
       credentials: "include",
       headers: {

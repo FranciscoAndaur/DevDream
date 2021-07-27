@@ -36,7 +36,7 @@ class App extends React.Component {
 
 
   fetchDreams = () => {
-    fetch("http://localhost:3000/posts")
+    fetch("https://secure-hollows-75074.herokuapp.com/posts")
       .then(r => r.json())
       .then(postsArray => {
         this.setState({
@@ -46,7 +46,7 @@ class App extends React.Component {
   }
 
   autologinFetch = () => {
-    fetch("http://localhost:3000/autologin", {
+    fetch("https://secure-hollows-75074.herokuapp.com/autologin", {
       credentials: "include"
     })
       .then(r => {
@@ -86,7 +86,7 @@ class App extends React.Component {
 
 
   handleLogout = () => {
-    fetch("http://localhost:3000/logout", {
+    fetch("https://secure-hollows-75074.herokuapp.com/logout", {
       credentials: "include"
     })
       .then(r => r.json())

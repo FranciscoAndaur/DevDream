@@ -14,7 +14,7 @@ const CommentDreamButton = (props) => {
   let postToBackend = (event) => {
     console.log(comments)
     event.preventDefault()
-    fetch("http://localhost:3000/comments", {
+    fetch("https://secure-hollows-75074.herokuapp.com/comments", {
       method: "POST",
       credentials: "include",
       headers: {
